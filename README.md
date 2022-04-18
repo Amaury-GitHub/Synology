@@ -17,6 +17,9 @@
 ## 拨号<br>
 直接在群晖里面设置就ok了,可以正常获取到IPV6的地址<br>
 但是办法给子网分配IPV6,内网反正也用不到<br>
+默认网关修改为PPPoE<br>
+dns修改为自身<br>
+添加代理指向clash的端口<br>
 ## Clash<br>
 官方的镜像直接拉取<br>
 映射相关的文件与文件夹到真实目录<br>
@@ -31,7 +34,6 @@ ps:修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转�
 2. 开启ppp0的NAT<br>
 3. 劫持TCP流量给clash<br>
 4. 劫持DNS请求给clash<br>
-ps:群晖本体没法通过clash上网,不知道咋写<br>
 ## DDNS<br>
 我的域名托管的是Cloudflare,解决方案还是很多的,有Docker也有sh<br>
 家里只有公网IPV6没有IPV4<br>
