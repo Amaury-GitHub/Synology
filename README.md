@@ -27,10 +27,10 @@
 5. 修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转发吧
 ## Iptable
 写个开机的sh的就ok了<br>
-开启IPV4的转发<br>
-开启ppp0的NAT<br>
-劫持TCP流量给clash<br>
-劫持DNS请求给clash<br>
+1. 开启IPV4的转发
+2. 开启ppp0的NAT
+3. 劫持TCP流量给clash
+4. 劫持DNS请求给clash
 问题:群晖本体没法通过clash上网,不知道咋写<br>
 ## DDNS
 我的域名托管的是Cloudflare,解决方案还是很多的,有Docker也有sh<br>
