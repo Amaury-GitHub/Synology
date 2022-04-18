@@ -17,7 +17,7 @@
 ## 拨号
 直接在群晖里面设置就ok了,可以正常获取到IPV6的地址<br>
 但是办法给子网分配IPV6,内网反正也用不到<br>
-## clash docker
+## Clash
 官方的直接拉取
 映射相关的文件与文件夹到真实目录
 1. config.yaml:/root/.config/clash/config.yaml
