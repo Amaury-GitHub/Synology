@@ -13,4 +13,26 @@
 网络架构变得更简单,链路更短<br>
 群晖的资源占用也变得更少了<br>
 # 过程
-相关的资料太少了,为啥没什么人选择这样的架构呢,OpenWrt的倒很多
+相关的资料太少了,为啥没什么人选择这样的架构呢,OpenWrt的倒很多<br>
+## 拨号
+直接在群晖里面设置就ok了,可以正常获取到IPV6的地址<br>
+但是办法给子网分配IPV6,内网反正也用不到<br>
+## clash docker
+官方的直接拉取
+映射相关的文件与文件夹到真实目录
+1. config.yaml:/root/.config/clash/config.yaml
+2. Country.mmdb:/root/.config/clash/Country.mmdb
+3. rule_providers:/root/.config/clash/rule_providers
+4. ui:/root/.config/clash/ui
+5. 修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转发吧
+## Iptable
+写个开机的sh的就ok了<br>
+开启IPV4的转发<br>
+开启ppp0的NAT<br>
+劫持TCP流量给clash<br>
+劫持DNS请求给clash<br>
+问题:群晖本体没法通过clash上网,不知道咋写<br>
+## DDNS
+我的域名托管的是Cloudflare,解决方案还是很多的,有Docker也有sh<br>
+家里只有公网IPV6没有IPV4<br>
+照着别人的sh自己写一个吧,适合的才是最好的<br>
