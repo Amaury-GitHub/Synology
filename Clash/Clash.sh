@@ -1,10 +1,9 @@
 # 开启IP转发
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
-# 建立新链
+# 建立CLASH_TCP链
 iptables -t nat -N CLASH_TCP
-iptables -t nat -F CLASH_TCP
-# 转发本地流量到CLASH_TCP
+# 转发本地流量到CLASH_TCP链
 iptables -t nat -A PREROUTING -p tcp -s 192.168.0.0/16 -j CLASH_TCP
 # 过滤保留地址
 iptables -t nat -A CLASH_TCP -d 0.0.0.0/8 -j RETURN
