@@ -26,8 +26,8 @@ dns指向内网的网卡IP<br>
 1. config.yaml:/root/.config/clash/config.yaml<br>
 2. Country.mmdb:/root/.config/clash/Country.mmdb<br>
 3. rule_providers:/root/.config/clash/rule_providers<br>
-4. ui:/root/.config/clash/ui<br>
-<br>
+4. ui:/root/.config/clash/ui<br><br>
+
 写个sh定时更新Country.mmdb,基本上clash就不用管了,规则使用yaml配置定时更新<br>
 ps:修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转发吧<br>
 ## Iptable<br>
@@ -35,8 +35,8 @@ ps:修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转�
 1. 开启IPV4的转发<br>
 2. 开启ppp0的NAT<br>
 3. 劫持TCP流量给clash<br>
-4. 劫持DNS请求给clash<br>
-<br>
+4. 劫持DNS请求给clash<br><br>
+
 ## DDNS<br>
 我的域名托管的是Cloudflare,解决方案还是很多的,有Docker也有sh<br>
 家里只有公网IPV6没有IPV4<br>
