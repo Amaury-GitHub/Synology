@@ -27,6 +27,7 @@ dns指向内网的网卡IP<br>
 2. Country.mmdb:/root/.config/clash/Country.mmdb<br>
 3. rule_providers:/root/.config/clash/rule_providers<br>
 4. ui:/root/.config/clash/ui<br>
+写个sh定时更新Country.mmdb,基本上clash就不用管了,规则使用yaml配置定时更新<br>
 ps:修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转发吧<br>
 ## Iptable<br>
 写个开机的sh的就ok了<br>
