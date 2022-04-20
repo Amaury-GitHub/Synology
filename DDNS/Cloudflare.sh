@@ -15,10 +15,10 @@ GetZone=$(curl -s -X GET "$GetZoneApi" -H "Authorization: Bearer $ApiToken" -H "
 #读取反馈状态
 GetZoneSuccess=$(echo "$GetZone" | jq -r ".success")
 if [[ $GetZoneSuccess = "true" ]]; then
-    echo "GetZoneOK";
+    echo "GetZoneOK"
 else
-    echo "GetZoneNG";
-    exit 0;
+    echo "GetZoneNG"
+    exit 0
 fi
 ZoneId=$(echo "$GetZone" | jq -r ".result[0].id")
 #读取Record ID & IP
@@ -27,18 +27,18 @@ GetRecord=$(curl -s -X GET "$GetRecordApi" -H "Authorization: Bearer $ApiToken" 
 #读取反馈状态
 GetRecordSuccess=$(echo "$GetRecord" | jq -r ".success")
 if [[ $GetRecordSuccess = "true" ]]; then
-    echo "GetRecordOK";
+    echo "GetRecordOK"
 else
-    echo "GetRecordNG";
-    exit 0;
+    echo "GetRecordNG"
+    exit 0
 fi
 #提取在线记录的ID与IP
 RecordId=$(echo "$GetRecord" | jq -r ".result[0].id")
 RecordIp=$(echo "$GetRecord" | jq -r ".result[0].content")
 #判断IP是否相同
 if [[ $RecordIp = $LocalIp ]]; then
-    echo "IpNoChange";
-    exit 0;
+    echo "IpNoChange"
+    exit 0
 fi
 #如果ID不存在建立新记录
 if [[ $RecordId = "null" ]]; then
@@ -47,9 +47,9 @@ if [[ $RecordId = "null" ]]; then
     #读取反馈状态
     CreateRecordSuccess=$(echo "$CreateRecord" | jq -r ".success")
     if [[ $CreateRecordSuccess = "true" ]]; then
-        echo "CreateRecordOK";
+        echo "CreateRecordOK"
     else
-        echo "CreateRecordNG";
+        echo "CreateRecordNG"
     fi
 #更新记录
 else
@@ -58,8 +58,8 @@ else
     #读取反馈状态
     UpdateRecordSuccess=$(echo "$UpdateRecord" | jq -r ".success")
     if [[ $UpdateRecordSuccess = "true" ]]; then
-        echo "UpdateRecordOK";
+        echo "UpdateRecordOK"
     else
-        echo "UpdateRecordNG";
+        echo "UpdateRecordNG"
     fi
 fi
