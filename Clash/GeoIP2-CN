@@ -1,0 +1,5 @@
+#!/bin/bash
+wget https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb -O /volume1/docker/Clash/Country.mmdb.new
+if [ -s /volume1/docker/Clash/Country.mmdb.new ]; then
+    mv /volume1/docker/Clash/Country.mmdb.new /volume1/docker/Clash/Country.mmdb;
+fi
