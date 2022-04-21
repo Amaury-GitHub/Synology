@@ -8,7 +8,7 @@ TtlTime="60"
 Proxy="false"
 CloudflareApi="https://api.cloudflare.com/client/v4"
 #读取本地IP
-LocalIp=$(ip -6 addr | grep inet6 | awk -F '[ \t]+|/' '{print $3}' | grep -v ^::1 | grep -v ^fe80)
+LocalIp=$(ip -6 addr | grep :: | awk -F '[ \t]+|/' '{print $3}' | grep -v ^::1 | grep -v ^fe80)
 #读取Zone ID
 GetZoneApi="${CloudflareApi}/zones"
 GetZone=$(curl -s -X GET "$GetZoneApi" -H "Authorization: Bearer $ApiToken" -H "Content-Type:application/json")
