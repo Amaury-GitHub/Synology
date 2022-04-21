@@ -4,9 +4,12 @@
 里面搭载了OpenClash,KMS,Socat,DDNS的服务来满足日常的需求<br>
 群晖docker里面还搭载了HomeAssistant<br>
 ## 思路<br>
-All in One 不利于折腾,折腾会搞到家里没网,还是拆开吧,保证网络的稳定性<br>
-走旁路由的方案吧<br>
-可以测试完全OK后再修改主路由的网关和dns<br>
+VMM占资源太高了,使用docker来替代相关服务<br>
+方案1的目标<br>
+All in One 不利于折腾,折腾会搞到家里没网<br>
+还是拆开吧,保证网络的稳定性<br>
+方案2的目标<br>
+可以随便折腾,完全OK后再修改主路由的网关和dns<br>
 ## 方案1<br>
 拨号由群晖完成<br>
 需要的服务由Docker实现<br>
