@@ -7,12 +7,17 @@
 All in One 不利于折腾,折腾会搞到家里没网,还是拆开吧,保证网络的稳定性<br>
 走旁路由的方案吧<br>
 可以测试完全OK后再修改主路由的网关和dns<br>
+## 方案1<br>
+拨号由群晖完成<br>
+需要的服务由Docker实现<br>
+docker安装clash实现透明代理<br>
+功能基本实现<br>
+不利于折腾,搞iptable太容易把docker搞崩溃了<br>
+继续折腾方案2
 ## 方案2<br>
 拨号由硬路由完成<br>
-群晖卸载VMM,所有的服务由Docker实现<br>
+需要的服务由Docker实现<br>
 docker安装clash实现透明代理<br>
-网络架构变得更简单,链路更短<br>
-群晖的资源占用也变得更少了<br>
 ## Iptable<br>
 越研究发现坑越多<br>
 群晖的iptables被阉割了,缺失相关模块<br>
