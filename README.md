@@ -4,11 +4,10 @@
 里面搭载了OpenClash,KMS,Socat,DDNS的服务来满足日常的需求<br>
 群晖docker里面还搭载了HomeAssistant<br>
 # 思路<br>
-使用的还算稳定,群晖的性能还是太弱,CPU与内存的占用一直很高,VMM占资源感觉还是太多了<br>
+~~使用的还算稳定,群晖的性能还是太弱,CPU与内存的占用一直很高,VMM占资源感觉还是太多了<br>
 于是开始寻找更好的方式<br>
 反正都是All in One,VMM与Docker也没啥区别,反正都是主机挂了所有的都挂了<br>
-想着直接由群晖拨号,其他的服务全部由Docker实现<br>
-# 思路.new<br>
+想着直接由群晖拨号,其他的服务全部由Docker实现~~<br>
 折腾了几天,家里网络不时中断,家人意见很大<br>
 还是走旁路由的方案吧<br>
 可以测试完全OK后再修改主路由的网关和dns<br>
@@ -16,14 +15,18 @@
 群晖卸载VMM,所有的服务由Docker实现<br>
 网络架构变得更简单,链路更短<br>
 群晖的资源占用也变得更少了<br>
-# 过程<br>
-相关的资料太少了,为啥没什么人选择这样的架构呢,OpenWrt的倒很多<br>
-## 拨号<br>
-直接在群晖里面设置就ok了,可以正常获取到IPV6的地址<br>
-但是办法给子网分配IPV6,内网反正也用不到<br>
-拨号的网卡不设定IP,设定PPPOE<br>
-另一个网卡设置IP与子网掩码,不设置网关<br>
-dns指向内网的网卡IP<br>
+拨号由硬路由完成<br>
+docker安装clash实现透明代理<br>
+## Iptable<br>
+越研究发现坑越多,群晖的iptables被阉割了,缺失相关模块<br>
+https://github.com/sjtuross/syno-iptables<br>
+下载相关模块,修改文件,把insmod加入到docker服务启动前<br>
+确保docker服务启动前相关模块加载完成<br>
+写个开机的sh的就ok了<br>
+1. 开启IPV4的转发<br>
+2. 开启ppp0的NAT<br>
+3. 劫持TCP流量给clash<br>
+4. 劫持DNS请求给clash<br><br>
 ## Clash<br>
 官方的镜像直接拉取<br>
 映射相关的文件与文件夹到真实目录<br>
@@ -31,16 +34,6 @@ dns指向内网的网卡IP<br>
 2. Country.mmdb:/root/.config/clash/Country.mmdb<br>
 3. rule_providers:/root/.config/clash/rule_providers<br>
 4. ui:/root/.config/clash/ui<br><br>
-
-写个sh定时更新Country.mmdb,基本上clash就不用管了,规则使用yaml配置定时更新<br>
-ps:修改yaml的dns端口,53被占用了,不知道怎么停,做修改然后转发吧<br>
-## Iptable<br>
-写个开机的sh的就ok了<br>
-1. 开启IPV4的转发<br>
-2. 开启ppp0的NAT<br>
-3. 劫持TCP流量给clash<br>
-4. 劫持DNS请求给clash<br><br>
-
 ## DDNS<br>
 我的域名托管的是Cloudflare,解决方案还是很多的,有Docker也有sh<br>
 家里只有公网IPV6没有IPV4<br>
