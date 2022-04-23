@@ -30,8 +30,10 @@ https://github.com/sjtuross/syno-iptables<br>
 写个开机的sh的就ok了<br>
 1. 开启IPV4的转发<br>
 2. 添加路由规则<br>
-3. 劫持流量到tproxy端口<br>
-4. 出口再打一次标签,防止回流<br>
+3. 所有流量转发CLASH链
+4. 跳过保留地址
+5. 其他流量转发到tproxy-port端口并设置mark<br>
+6. 我的dns默认就是53,就不用转发了<br>
 ## Clash<br>
 官方的镜像直接拉取<br>
 映射相关的文件与文件夹到真实目录<br>
