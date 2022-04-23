@@ -18,12 +18,9 @@ iptables -t mangle -A CLASH -d 172.16.0.0/12 -j RETURN
 iptables -t mangle -A CLASH -d 192.168.0.0/16 -j RETURN
 iptables -t mangle -A CLASH -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A CLASH -d 240.0.0.0/4 -j RETURN
-# 转发 7893 端口，并设置 mark
+# 转发到 tproxy-port 端口，并设置 mark
 iptables -t mangle -A CLASH -j TPROXY -p tcp --on-port 7893 --tproxy-mark 1
 iptables -t mangle -A CLASH -j TPROXY -p udp --on-port 7893 --tproxy-mark 1
-# 出口流量设置 mark
-iptables -t mangle -A OUTPUT -p tcp -d 198.18.0.0/16 -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT -p udp -d 198.18.0.0/16 -j MARK --set-mark 1
 # 最后让所有流量通过 CLASH 链进行处理
 iptables -t mangle -A PREROUTING -p tcp -j CLASH
 iptables -t mangle -A PREROUTING -p udp -j CLASH
