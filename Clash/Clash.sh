@@ -1,28 +1,29 @@
-# 开启IP转发
-echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
-# 建立CLASH_TCP链
-iptables -t nat -N CLASH_TCP
-# 转发本地流量到CLASH_TCP链
-iptables -t nat -A PREROUTING -p tcp -s 192.168.0.0/16 -j CLASH_TCP
-# 过滤保留地址
-iptables -t nat -A CLASH_TCP -d 0.0.0.0/8 -j RETURN
-iptables -t nat -A CLASH_TCP -d 10.0.0.0/8 -j RETURN
-iptables -t nat -A CLASH_TCP -d 100.64.0.0/10 -j RETURN
-iptables -t nat -A CLASH_TCP -d 127.0.0.0/8 -j RETURN
-iptables -t nat -A CLASH_TCP -d 169.254.0.0/16 -j RETURN
-iptables -t nat -A CLASH_TCP -d 172.16.0.0/12 -j RETURN
-iptables -t nat -A CLASH_TCP -d 192.0.0.0/24 -j RETURN
-iptables -t nat -A CLASH_TCP -d 192.0.2.0/24 -j RETURN
-iptables -t nat -A CLASH_TCP -d 192.88.99.0/24 -j RETURN
-iptables -t nat -A CLASH_TCP -d 192.168.0.0/16 -j RETURN
-iptables -t nat -A CLASH_TCP -d 198.51.100.0/24 -j RETURN
-iptables -t nat -A CLASH_TCP -d 203.0.113.0/24 -j RETURN
-iptables -t nat -A CLASH_TCP -d 224.0.0.0/4 -j RETURN
-iptables -t nat -A CLASH_TCP -d 240.0.0.0/4 -j RETURN
-iptables -t nat -A CLASH_TCP -d 255.255.255.255/32 -j RETURN
-# 开启TCP转发
-iptables -t nat -A CLASH_TCP -p tcp -s 192.168.0.0/16 -j REDIRECT --to-ports 7892
-# 开启DNS转发
-iptables -t nat -A PREROUTING -p udp -d 192.168.0.0/16 --dport 53 -j REDIRECT --to-ports 1053
+#!/bin/bash
 
+# 等待网卡就绪
+sleep 1m
+# 开启IP转发
+sysctl -w net.ipv4.ip_forward=1
+# 添加路由规则
+ip rule add fwmark 1 lookup 100
+ip route add local default dev lo table 100
+# 添加 CLASH 链
+iptables -t mangle -N CLASH
+# 跳过保留地址
+iptables -t mangle -A CLASH -d 0.0.0.0/8 -j RETURN
+iptables -t mangle -A CLASH -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A CLASH -d 127.0.0.0/8 -j RETURN
+iptables -t mangle -A CLASH -d 169.254.0.0/16 -j RETURN
+iptables -t mangle -A CLASH -d 172.16.0.0/12 -j RETURN
+iptables -t mangle -A CLASH -d 192.168.0.0/16 -j RETURN
+iptables -t mangle -A CLASH -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A CLASH -d 240.0.0.0/4 -j RETURN
+# 转发 7893 端口，并设置 mark
+iptables -t mangle -A CLASH -j TPROXY -p tcp --on-port 7893 --tproxy-mark 1
+iptables -t mangle -A CLASH -j TPROXY -p udp --on-port 7893 --tproxy-mark 1
+# 出口流量设置 mark
+iptables -t mangle -A OUTPUT -p tcp -d 198.18.0.0/16 -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -p udp -d 198.18.0.0/16 -j MARK --set-mark 1
+# 最后让所有流量通过 CLASH 链进行处理
+iptables -t mangle -A PREROUTING -p tcp -j CLASH
+iptables -t mangle -A PREROUTING -p udp -j CLASH
