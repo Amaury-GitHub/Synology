@@ -29,9 +29,9 @@ https://github.com/sjtuross/syno-iptables<br>
 确保docker服务启动前相关模块加载完成<br>
 写个开机的sh的就ok了<br>
 1. 开启IPV4的转发<br>
-2. 开启ppp0的NAT<br>
-3. 劫持TCP流量给clash<br>
-4. 劫持DNS请求给clash<br><br>
+2. 添加路由规则<br>
+3. 劫持流量到tproxy端口<br>
+4. 出口再打一次标签,防止回流<br>
 ## Clash<br>
 官方的镜像直接拉取<br>
 映射相关的文件与文件夹到真实目录<br>
