@@ -2,8 +2,6 @@
 
 # 等待网卡就绪
 sleep 1m
-# 开启IP转发
-sysctl -w net.ipv4.ip_forward=1
 # 添加路由规则
 ip rule add fwmark 1 lookup 100
 ip route add local default dev lo table 100
@@ -22,5 +20,4 @@ iptables -t mangle -A CLASH -d 240.0.0.0/4 -j RETURN
 iptables -t mangle -A CLASH -j TPROXY -p tcp --on-port 7893 --tproxy-mark 1
 iptables -t mangle -A CLASH -j TPROXY -p udp --on-port 7893 --tproxy-mark 1
 # 最后让所有流量通过 CLASH 链进行处理
-iptables -t mangle -A PREROUTING -p tcp -j CLASH
-iptables -t mangle -A PREROUTING -p udp -j CLASH
+iptables -t mangle -A PREROUTING -j CLASH
