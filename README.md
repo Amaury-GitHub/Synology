@@ -4,7 +4,7 @@
 里面搭载了OpenClash,KMS,Socat,DDNS的服务来满足日常的需求<br>
 群晖docker里面还搭载了HomeAssistant<br>
 ## 思路<br>
-VMM占资源太高了,使用docker来替代相关服务<br>
+VMM占资源太高了,也没用到什么特别的功能,使用docker全部可以实现,降低资源占用<br>
 ## 总结<br>
 拨号由群晖完成<br>
 需要的服务由Docker实现<br>
