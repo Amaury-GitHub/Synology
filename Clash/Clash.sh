@@ -25,9 +25,11 @@ iptables -t mangle -A CLASH -d 172.16.0.0/12 -j RETURN
 iptables -t mangle -A CLASH -d 192.168.0.0/16 -j RETURN
 iptables -t mangle -A CLASH -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A CLASH -d 240.0.0.0/4 -j RETURN
+# 跳过内网固定 IP 段
+iptables -t mangle -A CLASH -s 192.168.1.0/26 -j RETURN
 # 跳过 NTP 端口
 iptables -t mangle -A CLASH -p udp --dport 123 -j RETURN
-# 内网网段的流量转发到 TPROXY 端口，并设置 mark
+# 内网其他流量转发到 TPROXY 端口，并设置 mark
 iptables -t mangle -A CLASH -j TPROXY -p tcp -s 192.168.1.0/24 --on-port 7893 --tproxy-mark 1
 iptables -t mangle -A CLASH -j TPROXY -p udp -s 192.168.1.0/24 --on-port 7893 --tproxy-mark 1
 # 所有流量通过 CLASH 链进行处理
